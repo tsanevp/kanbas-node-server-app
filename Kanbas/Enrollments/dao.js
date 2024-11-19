@@ -9,3 +9,12 @@ export function unEnrollUserInCourse(userId, courseId) {
     const { enrollments } = Database;
     Database.enrollments = enrollments.filter((enrollment) => !(enrollment.user === userId && enrollment.course === courseId));
 }
+
+export function getAllEnrollmentsForCourse(courseId) {
+    const { enrollments, users } = Database;
+    const people = users
+        .filter((usr) =>
+            enrollments.some((enrollment) => enrollment.user === usr._id && enrollment.course === courseId)
+        )
+    return people;
+}
