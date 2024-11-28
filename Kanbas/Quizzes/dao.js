@@ -8,7 +8,6 @@ export function findQuizzesForCourse(courseId) {
 export function createQuiz(quiz) {
     const newQuiz = { ...quiz, _id: Date.now().toString() };
     Database.quizzes = [...Database.quizzes, newQuiz];
-    console.log(Database.quizzes);
     return newQuiz;
 }
 
