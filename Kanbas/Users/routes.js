@@ -4,29 +4,43 @@ import * as enrollmentsDao from "../Enrollments/dao.js";
 
 export default function UserRoutes(app) {
     const createUser = async (req, res) => {
-        const { user } = req.body;
-        const newUser = await dao.createUser(user);
-        return newUser;
-    };
+        const user = await dao.createUser(req.body);
+        res.json(user);
+      };
     const deleteUser = async (req, res) => {
-        const { userId } = req.params;
-        await dao.deleteUser(userId);
-        res.sendStatus(204);
+        const status = await dao.deleteUser(req.params.userId);
+        res.json(status);
     };
     const findAllUsers = async (req, res) => {
+        const { role, name } = req.query;
+
+        if (role) {
+            const users = await dao.findUsersByRole(role);
+            res.json(users);
+            return;
+        }
+
+        if (name) {
+            const users = await dao.findUsersByPartialName(name);
+            res.json(users);
+            return;
+        }
+
         const users = await dao.findAllUsers();
         res.json(users);
     };
     const findUserById = async (req, res) => {
-        let { userId } = req.params;
-        const user = await dao.findUserById(userId)
+        const user = await dao.findUserById(req.params.userId);
         res.json(user);
     };
     const updateUser = async (req, res) => {
-        const userId = req.params.userId;
+        const { userId } = req.params;
         const userUpdates = req.body;
         await dao.updateUser(userId, userUpdates);
-        const currentUser = await dao.findUserById(userId);
+        const currentUser = req.session["currentUser"];
+        if (currentUser && currentUser._id === userId) {
+            req.session["currentUser"] = { ...currentUser, ...userUpdates };
+        }
         res.json(currentUser);
     };
     const signup = async (req, res) => {
@@ -73,14 +87,14 @@ export default function UserRoutes(app) {
             }
             userId = currentUser._id;
         }
-        const courses = await courseDao.findCoursesForEnrolledUser(userId);
+        const courses = courseDao.findCoursesForEnrolledUser(userId);
         res.json(courses);
     };
 
     const createCourse = async (req, res) => {
         const currentUser = req.session["currentUser"];
         const newCourse = await courseDao.createCourse(req.body);
-        await enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+        enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
         res.json(newCourse);
     };
 
