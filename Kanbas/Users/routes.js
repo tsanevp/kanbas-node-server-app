@@ -128,7 +128,6 @@ export default function UserRoutes(app) {
     const submitQuizForUser = async (req, res) => {
         let { uid, cid, qid } = req.params;
         const { quizResults } = req.body;
-        console.log(quizResults);
 
         if (uid === "current") {
             const currentUser = req.session["currentUser"];
@@ -142,17 +141,14 @@ export default function UserRoutes(app) {
     };
 
     const findQuizResultsForUser = async (req, res) => {
-        let { uid, cid } = req.params;
+        let { uid, cid, qid } = req.params;
 
         if (uid === "current") {
             const currentUser = req.session["currentUser"];
             uid = currentUser._id;
         }
-        console.log(uid);
-        console.log(cid);
 
-        const quizResults = await quizResultsDao.findQuizResultsForUser(uid, cid);
-        console.log(quizResults);
+        const quizResults = await quizResultsDao.findQuizResultsForUser(uid, cid, qid);
         res.send(quizResults);
     };
 
@@ -170,6 +166,6 @@ export default function UserRoutes(app) {
     app.post("/api/users/:uid/courses/:cid", enrollUserInCourse);
     app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
     app.post("/api/users/:uid/courses/:cid/quizzes/:qid", submitQuizForUser);
-    app.get("/api/users/:uid/courses/:cid/quizResults", findQuizResultsForUser);
+    app.get("/api/users/:uid/courses/:cid/quizResults/:qid", findQuizResultsForUser);
 }
 

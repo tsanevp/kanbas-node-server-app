@@ -5,8 +5,8 @@ export function createQuizResult(quizResult) {
     return model.create(quizResult);
 }
 
-export function findQuizResultsForUser(userId, courseId) {
-    return model.find({ userId: userId, courseId: courseId })
+export function findQuizResultsForUser(userId, courseId, quizId) {
+    return model.find({ quizId: quizId, userId: userId, courseId: courseId })
         .populate("courseId")
         .populate("userId")
         .sort({ submissionDate: -1 }
