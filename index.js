@@ -3,7 +3,6 @@ import express from 'express';
 import mongoose from "mongoose";
 import cors from "cors";
 import session from "express-session";
-import Lab5 from './Lab5/index.js';
 import UserRoutes from './Kanbas/Users/routes.js';
 import CourseRoutes from "./Kanbas/Courses/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
@@ -46,5 +45,4 @@ QuizRoutes(app);
 EnrollmentsRoutes(app);
 QuizResultsRoutes(app);
 
-Lab5(app);
 app.listen(process.env.PORT || 4000);
