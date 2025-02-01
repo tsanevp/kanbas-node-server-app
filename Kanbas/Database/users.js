@@ -14,6 +14,20 @@ export default [
         "totalActivity": "10:21:32"
     },
     {
+        "_id": "1234",
+        "username": "testing",
+        "password": "testing",
+        "firstName": "Tony",
+        "lastName": "Stark",
+        "email": "tony@stark.com",
+        "dob": "1972-02-19",
+        "role": "ADMIN",
+        "loginId": "001234561S",
+        "section": "S101",
+        "lastActivity": "2020-10-01",
+        "totalActivity": "10:21:32"
+    },
+    {
         "_id": "234",
         "username": "dark_knight",
         "password": "wayne123",

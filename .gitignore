@@ -35,4 +35,4 @@ typings/
 .yarn-integrity
 
 # ignore local secrets
-.env.local
+.env
